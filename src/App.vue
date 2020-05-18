@@ -1,28 +1,55 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id='App'>
+    <H1>
+      Домашнее задание по математике для 1го класса
+    </H1>
+    <List :ex1="ex1" :ex2="ex2" @del="del" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import List from "./components/List";
 
 export default {
-  name: 'App',
+  name: 'Math',
+  data() {
+    return {
+      ex1:[],
+      ex2:[],
+      msg:0,
+      test:'test'
+    }
+  },
   components: {
-    HelloWorld
+    List
+  },
+  created: function(){
+    let max=9, min=5;
+    for (let i=0 ; i<=25 ; i++) {
+      this.ex1.push(Math.round(Math.random()*(max-min)+min));
+      this.ex2.push(Math.round(Math.random()*(max-min)+min));
+    }
+  },
+  methods: {
+    del(index) {
+      this.examples.splice(index,1)
+    }
   }
+  
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@font-face {
+  font-family: mel;
+  src: url("../fonts/mel.woff2") format("woff2") ;
+}
+
+body {
+  background: #2a8d7b;
+  color: #fff;
+  font-family: mel;
+  font-size: 120%;
+  text-shadow: 5px 5px 5px #555;
 }
 </style>
