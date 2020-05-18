@@ -1,30 +1,50 @@
 <template>
     <div>
         <!--
-        <ul>
-            <li v-for="(item,index) in exAll" :key="index"  class='exLabel' > {{item}}  
-                <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" >
-            </li>
-        </ul>
+        <button @click='myhide=!myhide'> Спрятать </button>
         -->
         
-        <div class="divImg">
-            <img src="../assets/pic2.jpg" alt="Картинка не найдена" class="bigImg">
+        
+        <div class="divImg" v-if="myhide">
+            <img src="../assets/pic1.jpg" alt="Картинка не найдена" class="bigImg">
         </div>
 
-        <transition name=fly>
+
+        <transition-group name="fly2">
+            <!--
+            <div v-for="i in nums" :key=i class="flyDiv">
+                {{i}}
+            </div>
+                <div v-for="index in 5" :key=index+(1-1)*5 class="flyDiv" v-show="checkFly(index+(1-1)*5)" :style="{left: (index-1)*275+'px', top: (i-1)*155+80 +'px' }"  >
+                        {{exAll[index+(1-1)*5]}}
+                        <input v-model="answ[index+(1-1)*5]" class='answInput' :class="checkAnswer(index+(1-1)*5)" >
+                </div>
+
+                <div v-for="index in 5" :key=index+(1-1)*5 class="flyDiv" v-show="checkFly(index+(1-1)*5)" :style="{left: (index-1)*275+'px', top: (1-1)*155+80 +'px' }"  >
+                        {{exAll[index+(1-1)*5]}}
+                        <input v-model="answ[index+(1-1)*5]" class='answInput' :class="checkAnswer(index+(1-1)*5)" >
+                </div>
+
+
+
             <div v-for="i in 5" :key=i>
-                <div v-for="index in 5" :key=index class="flyDiv exLabel" v-show="checkFly(index+(i-1)*5)" :style="{left: (index-1)*275+'px', top: (i-1)*155+80 +'px' }" >
+                
+                <div v-for="index in 5" :key=index+(i-1)*5 class="flyDiv" v-show="checkFly(index+(i-1)*5)" :style="{left: (index-1)*275+'px', top: (i-1)*155+80 +'px' }" >
                     {{exAll[index+(i-1)*5]}}
                     <input v-model="answ[index+(i-1)*5]" class='answInput' :class="checkAnswer(index+(i-1)*5)" >
                 </div>
+                
             </div>
-        <trasition>
+            -->
+                <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: index*275-num*275*5+'px', top: num*155+80 +'px' }"  >
+                        {{exAll[index]}}
+                        <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" >
+                </div>
+
+
+        </transition-group>
         <br>
         <button @click="checkFlag=!checkFlag"> Проверить </button>
-        <div v-if="test">
-            {{checkFlag}}
-        </div>
         <!--
         Правильных ответов {{checkResult.Ok}}, Ошибок {{checkResult.Wrang}}, Осталось {{checkResult.j}}
         -->
@@ -46,7 +66,9 @@ export default {
             isA:1,
             isB:0,
             checkFlag:false,
-            myTop:10
+            myTop:10,
+            myhide:1,
+            nums:[0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4]
         }
     },
     computed: {
@@ -147,7 +169,7 @@ export default {
 
 .flyDiv {
     display: inline-block;
-    position: absolute;
+    position: fixed;
     color: #fff;
     font-weight: bold;
     text-shadow: 2px 2px 2px #555;
@@ -165,43 +187,14 @@ export default {
 }
 
 
-
-.exLabelNotUse {
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 40px;
-    margin: 0 5px 5px;
-    text-shadow: #555 5px 5px;
+.fly2-enter-active, .fly2-leave-active {
+  transition: all 1s;
+}
+.fly2-enter, .fly2-leave-to /* .list-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
-
-
-.goo {
-    font-size: 3rem;
-    line-height: 1.35;
-    display: inline;
-    box-decoration-break: clone;
-    background: var(--color-highlight);
-    padding: 0.5rem 1rem;
-    filter: url('#goo');
-}
-
-
-.C{
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  font-size: 200px;
-  margin: 0;
-  color: black;
-  text-shadow:
-     4px  4px 120px rgba(256, 256, 256, 1),
-    -4px -4px 120px rgba(256, 256, 256, 1),
-    -4px  4px 120px rgba(256, 256, 256, 1),
-     4px -4px 120px rgba(256, 256, 256, 1)
-  ;
-}
 
 @keyframes anim {
   0%   { opacity: 0; filter: blur(28px)}
