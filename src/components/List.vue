@@ -6,11 +6,12 @@
         
         
         <div class="divImg" v-if="myhide">
-            <img src="../assets/pic1.jpg" alt="Картинка не найдена" class="bigImg">
+            <img src="../assets/pic2.jpg" alt="Картинка не найдена" class="bigImg">
         </div>
 
 
-        <transition-group name="fly2">
+        <transition-group name="fly3"
+            leave-active-class="animated bounceOutRight">
             <!--
             <div v-for="i in nums" :key=i class="flyDiv">
                 {{i}}
@@ -43,8 +44,7 @@
 
 
         </transition-group>
-        <br>
-        <button @click="checkFlag=!checkFlag"> Проверить </button>
+        <div class="glo" @click="checkFlag=!checkFlag" >Проверить</div>
         <!--
         Правильных ответов {{checkResult.Ok}}, Ошибок {{checkResult.Wrang}}, Осталось {{checkResult.j}}
         -->
@@ -207,6 +207,28 @@ export default {
 }
 .B{
   animation: anim 5s infinite alternate;
+}
+
+
+div.glo{
+ color:#fff;
+ padding: 10px 20px;
+ width:100px;
+ text-decoration:none;
+ text-align:center;
+ margin:20px auto;
+ display: block;
+ background-image: linear-gradient(to left,transparent,transparent 50%,#00c6ff 50%,#00c6ff);
+ background-position: 100% 0;
+ background-size: 200% 100%;
+ transition: all .25s ease-in;
+ font: 400 18px tahoma;
+ border: 1px solid #fff;
+ cursor:pointer;
+}
+div.glo:hover {
+background-position: 0 0;
+color:#fff;
 }
 
 </style>
