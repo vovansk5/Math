@@ -3,11 +3,12 @@
     <H1>
       Домашнее задание по математике для 1го класса
     </H1>
-    <List :ex1="ex1" :ex2="ex2" @del="del" />
+    <List/>
   </div>
 </template>
 
 <script>
+
 import List from "./components/List";
 
 export default {
@@ -31,9 +32,6 @@ export default {
     }
   },
   methods: {
-    del(index) {
-      this.examples.splice(index,1)
-    }
   }
   
 }

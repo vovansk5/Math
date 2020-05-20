@@ -6,70 +6,59 @@
         
         
         <div class="divImg" v-if="myhide">
-            <img src="../assets/pic2.jpg" alt="Картинка не найдена" class="bigImg">
+            <img :src="curPhoto" alt="Картинка не найдена" class="bigImg">
         </div>
 
 
         <transition-group name="fly3"
             leave-active-class="animated bounceOutRight">
-            <!--
-            <div v-for="i in nums" :key=i class="flyDiv">
-                {{i}}
+
+            <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: index*275-num*275*5+'px', top: num*155+80 +'px' }"  >
+                    {{exAll[index]}}
+                    <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" :disabled="checkFlag" >
             </div>
-                <div v-for="index in 5" :key=index+(1-1)*5 class="flyDiv" v-show="checkFly(index+(1-1)*5)" :style="{left: (index-1)*275+'px', top: (i-1)*155+80 +'px' }"  >
-                        {{exAll[index+(1-1)*5]}}
-                        <input v-model="answ[index+(1-1)*5]" class='answInput' :class="checkAnswer(index+(1-1)*5)" >
-                </div>
-
-                <div v-for="index in 5" :key=index+(1-1)*5 class="flyDiv" v-show="checkFly(index+(1-1)*5)" :style="{left: (index-1)*275+'px', top: (1-1)*155+80 +'px' }"  >
-                        {{exAll[index+(1-1)*5]}}
-                        <input v-model="answ[index+(1-1)*5]" class='answInput' :class="checkAnswer(index+(1-1)*5)" >
-                </div>
-
-
-
-            <div v-for="i in 5" :key=i>
-                
-                <div v-for="index in 5" :key=index+(i-1)*5 class="flyDiv" v-show="checkFly(index+(i-1)*5)" :style="{left: (index-1)*275+'px', top: (i-1)*155+80 +'px' }" >
-                    {{exAll[index+(i-1)*5]}}
-                    <input v-model="answ[index+(i-1)*5]" class='answInput' :class="checkAnswer(index+(i-1)*5)" >
-                </div>
-                
-            </div>
-            -->
-                <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: index*275-num*275*5+'px', top: num*155+80 +'px' }"  >
-                        {{exAll[index]}}
-                        <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" >
-                </div>
 
 
         </transition-group>
-        <div class="glo" @click="checkFlag=!checkFlag" >Проверить</div>
-        <!--
-        Правильных ответов {{checkResult.Ok}}, Ошибок {{checkResult.Wrang}}, Осталось {{checkResult.j}}
-        -->
+
+        <div class="glo" @click="check" v-if="checkResult.j==1&&checkFlag==0">Проверить </div>
+        <div class="glo" @click="check" v-if="checkFlag==1">Начать заново </div>
+        <div class="glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
+        
+        <div v-if="checkFlag" style="margin-top:-30px">
+        Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}
+        </div>
+        <br>
+        <sendMail style="display:none" />
 
 
     </div>        
 
 </template>
 
-
-
 <script>
+
+import SendMail from "./SendMail";
+
 export default {
-    props:['ex1','ex2'],
     data() {
         return {
             answ:[],
             ok:1,
             isA:1,
             isB:0,
+            ex1:[],
+            ex2:[],
             checkFlag:false,
             myTop:10,
             myhide:1,
-            nums:[0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4]
+            nums:[0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4],
+            curPhoto:'./img/1.jpg',
+            numPhoto:1
         }
+    },
+    components:{
+        SendMail
     },
     computed: {
         exAll() {
@@ -120,10 +109,32 @@ export default {
         }
     },
     methods: {
-        del(index) {
-            this.$emit('del',index)
-        }
+        check() {
+            if (this.checkFlag) {
+                this.makeNewEx(); 
+            }
+            this.checkFlag=!this.checkFlag
+        },
+        makeNewEx(){
+            this.ex1.length=0;  
+            this.ex2.length=0;
+            this.answ.length=0;
+
+            let max=9, min=5;
+
+            for (let i=0 ; i<=25 ; i++) {
+            this.ex1.push(Math.round(Math.random()*(max-min)+min));
+            this.ex2.push(Math.round(Math.random()*(max-min)+min));
+
+            this.numPhoto=Math.round(Math.random()*18);
+            this.curPhoto='./img/'+this.numPhoto+'.jpg'
+            }
+        },        
+    },
+    created:function(){
+        this.makeNewEx(); 
     }
+
 
 }
 </script>
@@ -180,8 +191,8 @@ export default {
     font-family: mel;
     font-size: 30px;
     margin: 10px;
-    width: 270px;
-    height:150px;
+    width: 272px;
+    height:152px;
     border: solid 1px black;
     border-radius: 5px;
 }
@@ -210,13 +221,15 @@ export default {
 }
 
 
+
 div.glo{
  color:#fff;
  padding: 10px 20px;
- width:100px;
+ width:130px;
  text-decoration:none;
  text-align:center;
- margin:20px auto;
+ margin-left:620px;
+ margin-top:20px;
  display: block;
  background-image: linear-gradient(to left,transparent,transparent 50%,#00c6ff 50%,#00c6ff);
  background-position: 100% 0;
