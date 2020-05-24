@@ -1,9 +1,11 @@
 <template>
     <div>
         {{test}}
-
+        {{hashTegs}}
     </div>
 </template>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 export default {
@@ -12,56 +14,21 @@ export default {
     ],
     data() {
         return {
-            test:1242
+            test:1242,
+            hashTegs:[]
         }
     },
     methods:{
         sendMail() {
-                this.test=5;
-                /*try   
-                (sRecipientMail, sSubject, sMsgBody
-                {   
-                    // create a session and log on -- username and password in profile    
-                    var refMsg = WScript.CreateObject("CDO.Message");   
-                    var refConf = WScript.CreateObject("CDO.Configuration");   
-                    
-                    // Setting configuration params   
-                    with(refConf.Fields)   
-                    {   
-                        Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = "smtp.mail.ru";  
-                        Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2; 
-                        Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = 1;  
-                        Item("http://schemas.microsoft.com/cdo/configuration/sendusername") = "lou@list.ru";  
-                        Item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = "****"; 
-                    }   
-                    refConf.Fields.Update();   
-            
-                    with(refMsg)   
-                    {   
-                        Configuration = refConf;   
-                        To       = sRecipientMail;   
-                        From     = "lou@list.ru";   
-                        Subject  = sSubject;   
-                        TextBody = sMsgBody;   
-                    }  
-            
-                    if (files)  
-                    {  
-                        for(var i=0; i<files.length; i++)  
-                            refMsg.AddAttachment(files[i]);  
-                    }  
-            
-                    refMsg.Send();   
-                }    
-                catch(e)   
-                {   
-                    WScript.Echo("SendMail error !!! : " + e.description);   
-                    WScript.Quit(1);   
-                }   
-            }
+            this.test=51;
+            console.log(this.test);
+            axios.get('https://dka-develop.ru/api?type=hashtag').then ((response)=>{
+                this.hashTegs = response.data;
+                console.log(response.data);
 
-          */  
-        } 
+            })
+
+        }
     },
     created() {
         this.sendMail();

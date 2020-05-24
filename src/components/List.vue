@@ -2,7 +2,7 @@
     <div>
         <!--
         <button @click='myhide=!myhide'> Спрятать </button>
-        -->
+        
         
         
         <div class="divImg" v-if="myhide">
@@ -21,15 +21,15 @@
 
         </transition-group>
 
-        <div class="glo" @click="check" v-if="checkResult.j==1&&checkFlag==0">Проверить </div>
-        <div class="glo" @click="check" v-if="checkFlag==1">Начать заново </div>
-        <div class="glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
+        <div class="glo pointerCursor" @click="check" v-if="checkResult.j==1&&checkFlag==0">Ответить </div>
+        <div class="glo pointerCursor" @click="check" v-if="checkFlag==1">Начать заново </div>
+        <div class="stopCursor glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
         
         <div v-if="checkFlag" style="margin-top:-30px">
         Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}
         </div>
-        <br>
-        <sendMail style="display:none" />
+        -->
+        <sendMail style="display:block" />
 
 
     </div>        
@@ -220,11 +220,18 @@ export default {
   animation: anim 5s infinite alternate;
 }
 
+.stopCursor {
+  cursor:not-allowed
+}
 
+.pointerCursor {
+  cursor: pointer;
+}
 
 div.glo{
  color:#fff;
  padding: 10px 20px;
+ top:850px;
  width:130px;
  text-decoration:none;
  text-align:center;
@@ -237,7 +244,6 @@ div.glo{
  transition: all .25s ease-in;
  font: 400 18px tahoma;
  border: 1px solid #fff;
- cursor:pointer;
 }
 div.glo:hover {
 background-position: 0 0;
