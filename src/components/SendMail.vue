@@ -2,12 +2,14 @@
     <div>
         {{test}}
         {{hashTegs}}
+        adsssssssssssssssss
     </div>
 </template>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
 <script>
+
+//import {HTTPtestBB} from './http-common';
+
 export default {
     props:[
         'mailTo','mailForm','Subject','Body'
@@ -15,23 +17,25 @@ export default {
     data() {
         return {
             test:1242,
-            hashTegs:[]
+            hashTegs:[],
+            postBodyBB:''
         }
     },
     methods:{
         sendMail() {
-            this.test=51;
-            console.log(this.test);
-            axios.get('https://dka-develop.ru/api?type=hashtag').then ((response)=>{
-                this.hashTegs = response.data;
-                console.log(response.data);
-
-            })
-
+               alert(`Привет dddddd ${this.mailto}`)
         }
+        /*,
+        myPost() {
+          HTTPtestBB.post(``,this.postBodyBB) 
+          .then ((response)=> {
+            this.webResponse=response.data;
+          })
+      },    */    
+
     },
     created() {
-        this.sendMail();
+         this.sendMail()
     }
 }
 

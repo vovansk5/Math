@@ -24,21 +24,20 @@
         <div class="glo pointerCursor" @click="check" v-if="checkResult.j==1&&checkFlag==0">Ответить </div>
         <div class="glo pointerCursor" @click="check" v-if="checkFlag==1">Начать заново </div>
         <div class="stopCursor glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
+
+        <button @click="sendMail3">sendMail3</button> 
         
         <div v-if="checkFlag" style="margin-top:-30px">
         Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}
         </div>
         
-        <sendMail style="display:none" />
-
-
     </div>        
 
 </template>
 
 <script>
 
-import SendMail from "./SendMail";
+import {myMail} from "./MyMail.js"
 
 export default {
     data() {
@@ -58,7 +57,6 @@ export default {
         }
     },
     components:{
-        SendMail
     },
     computed: {
         exAll() {
@@ -129,7 +127,16 @@ export default {
             this.numPhoto=Math.round(Math.random()*18);
             this.curPhoto='./img/'+this.numPhoto+'.jpg'
             }
-        },        
+        },       
+        sendMail3(){
+            let body;
+            body=`<b>Good answer</b> = ${this.checkResult.Ok}, Errors = ${this.checkResult.Wrang}, NumPhoto = ${this.numPhoto}
+                \u000A \u000A
+                <i class="fa fa-bath" aria-hidden="true"></i>
+                ${ (this.checkResult.Ok>20) ? "\u263A " : "\u1f680"}`;
+            alert(body);
+            myMail("vova@septima.ru","Fountain of knowledge",body);
+        }
     },
     created:function(){
         this.makeNewEx(); 
