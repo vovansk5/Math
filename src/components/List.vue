@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--
-        <button @click='myhide=!myhide'> Спрятать </button>
+        <button @click='myhide=!myhide'> Спрятать </button> -->
         
         
         
@@ -28,8 +28,8 @@
         <div v-if="checkFlag" style="margin-top:-30px">
         Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}
         </div>
-        -->
-        <sendMail style="display:block" />
+        
+        <sendMail style="display:none" />
 
 
     </div>        
