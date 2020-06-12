@@ -1,5 +1,6 @@
 <template>
     <div id="mainDiv">
+        <div id="topBoard"> </div>
         <!--
         <button @click='myhide=!myhide'> Спрятать </button> -->
         <h1>Домашнее задание по математике</h1>
@@ -9,7 +10,7 @@
             <img :src="curPhoto" alt="Картинка не найдена" class="bigImg">
 
 
-            <transition-group name="fly3"
+            <transition-group name="fly2"
                 leave-active-class="animated bounceOutRight">
 
                 <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' }"  >
@@ -22,7 +23,7 @@
 
         </div>
 
-        <div class="glo pointerCursor" @click="check" v-if="checkResult.j==1&&checkFlag==0">Ответить </div>
+        <div class="glo pointerCursor" @click="check" v-if="checkResult.j==1&&checkFlag==0||1==0">Ответить </div>
         <div class="glo pointerCursor" @click="check" v-if="checkFlag==1">Начать заново </div>
         <div class="stopCursor glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
 
@@ -162,8 +163,12 @@ export default {
     margin:auto;
 }
 
-#centerDiv {
-
+#topBoard {
+    position:absolute;
+    height:0px;
+    width:100%;
+    background:brown;
+    border: solid 0px red;
 }
 
 h1 {
@@ -233,7 +238,7 @@ h1 {
 
 
 .fly2-enter-active, .fly2-leave-active {
-  transition: all 1s;
+  transition: all 2s;
 }
 .fly2-enter, .fly2-leave-to /* .list-leave-active до версии 2.1.8 */ {
   opacity: 0;
