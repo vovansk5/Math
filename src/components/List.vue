@@ -1,19 +1,18 @@
 <template>
-    <div>
+    <div id="mainDiv">
         <!--
         <button @click='myhide=!myhide'> Спрятать </button> -->
-        
+        <h1>Домашнее задание по математике</h1>
         
         
         <div class="divImg" v-if="myhide">
             <img :src="curPhoto" alt="Картинка не найдена" class="bigImg">
-        </div>
 
 
         <transition-group name="fly3"
             leave-active-class="animated bounceOutRight">
 
-            <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: index*275-num*275*5+'px', top: num*155+80 +'px' }"  >
+            <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' }"  >
                     {{exAll[index]}}
                     <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" :disabled="checkFlag" >
             </div>
@@ -21,13 +20,14 @@
 
         </transition-group>
 
+        </div>
+
         <div class="glo pointerCursor" @click="check" v-if="checkResult.j==1&&checkFlag==0">Ответить </div>
         <div class="glo pointerCursor" @click="check" v-if="checkFlag==1">Начать заново </div>
         <div class="stopCursor glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
 
-      
         <div v-if="checkFlag" style="margin-top:-30px">
-        Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}. Результат смотри на почте mail.ru
+        Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}.
         </div>
         
     </div>        
@@ -137,7 +137,14 @@ export default {
                 <br> <br>
                 <b> ${ (this.checkResult.Ok>20) ? " :) " : " :( "} </b>`;
             myMail("vova@septima.ru;kirillnsk12@mail.ru","Fountain of knowledge",body);
+        },
+        sendMail4(){
+            // let body;
+            // body=`In Englist По русски`;
+            // myMail("vovansk5@gmail.com;vova@septima.ru","TestRus",body);
+            localStorage.SeePhoto=this.numPhoto;
         }
+
     },
     created:function(){
         this.makeNewEx(); 
@@ -149,13 +156,28 @@ export default {
 
 
 <style>
+#mainDiv {
+    border: solid 0px red;
+    width:1340px;
+    margin:auto;
+}
+
+#centerDiv {
+
+}
+
+h1 {
+    text-align: center;
+    white-space: nowrap;
+}
 
 .divImg {
+    position:relative;
     padding:10px;
-    width:1340px; 
+    width:1300px; 
     height:720px ; 
     text-align: center; 
-    border: solid 1px black;
+    border: solid 0px black;
     margin-left: 5px;
 }
 
@@ -188,19 +210,18 @@ export default {
 
 .flyDiv {
     display: inline-block;
-    position: fixed;
+    position: absolute;
     color: #fff;
     font-weight: bold;
     text-shadow: 2px 2px 2px #555;
     background: #2a8d7b;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 120px;
     font-family: mel;
     font-size: 30px;
     margin: 10px;
-    width: 272px;
-    height:152px;
+    text-align: center;
+    padding:20px;
+    width: 192px;
+    height:104px;
     border: solid 1px black;
     border-radius: 5px;
 }
@@ -243,8 +264,7 @@ div.glo{
  width:130px;
  text-decoration:none;
  text-align:center;
- margin-left:620px;
- margin-top:20px;
+ margin:auto;
  display: block;
  background-image: linear-gradient(to left,transparent,transparent 50%,#00c6ff 50%,#00c6ff);
  background-position: 100% 0;
