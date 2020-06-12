@@ -9,16 +9,16 @@
             <img :src="curPhoto" alt="Картинка не найдена" class="bigImg">
 
 
-        <transition-group name="fly3"
-            leave-active-class="animated bounceOutRight">
+            <transition-group name="fly3"
+                leave-active-class="animated bounceOutRight">
 
-            <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' }"  >
-                    {{exAll[index]}}
-                    <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" :disabled="checkFlag" >
-            </div>
+                <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="checkFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' }"  >
+                        {{exAll[index]}}
+                        <input v-model="answ[index]" class='answInput' :class="checkAnswer(index)" :disabled="checkFlag" >
+                </div>
 
 
-        </transition-group>
+            </transition-group>
 
         </div>
 
@@ -26,8 +26,8 @@
         <div class="glo pointerCursor" @click="check" v-if="checkFlag==1">Начать заново </div>
         <div class="stopCursor glo" v-if="checkResult.j>1">Осталось {{checkResult.j-1}} </div>
 
-        <div v-if="checkFlag" style="margin-top:-30px">
-        Правильных ответов {{checkResult.Ok}}, ошибок {{checkResult.Wrang}}.
+        <div id="resultDiv" v-if="checkFlag" >
+        Правильно: {{checkResult.Ok}}, ошибок: {{checkResult.Wrang}}.
         </div>
         
     </div>        
@@ -202,10 +202,15 @@ h1 {
     font-size: 30px;
     font-weight: 300;
     line-height: 40px;
+    border: none;
     margin: 0 5px 5px;
     width:70px;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px #555;
+    box-shadow: 0px 0px 5px 1px #555;
+}
+
+#resultDiv {
+    margin:-41px 150px;
 }
 
 .flyDiv {
