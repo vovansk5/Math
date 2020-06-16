@@ -1,0 +1,130 @@
+#mainDiv {
+    border: solid 0px red;
+    width:1340px;
+    margin:auto;
+}
+
+#topBoard {
+    position:absolute;
+    height:0px;
+    width:100%;
+    background:brown;
+    border: solid 0px red;
+}
+
+h1 {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.divImg {
+    position:relative;
+    padding:10px;
+    width:1300px; 
+    height:720px ; 
+    text-align: center; 
+    border: solid 0px black;
+    margin-left: 5px;
+}
+
+.bigImg {
+    /*background-size: cover;*/
+    width:auto;
+    
+    height: 100%;
+}
+
+.answerOk {
+    background: green;
+}
+.answerWrong {
+    background: red;
+}
+.answInput {
+    color: #fff;
+    background:#2a8d7b;
+    text-align: center;
+    font-family: mel;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 40px;
+    border: none;
+    margin: 0 5px 5px;
+    width:70px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 1px #555;
+}
+
+#resultDiv {
+    margin:-41px 150px;
+}
+
+.flyDiv {
+    display: inline-block;
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px #555;
+    background: #2a8d7b;
+    font-family: mel;
+    font-size: 30px;
+    margin: 10px;
+    text-align: center;
+    padding:20px;
+    width: 192px;
+    height:104px;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+
+.fly2-enter-active, .fly2-leave-active {
+  transition: all 2s;
+}
+.fly2-enter, .fly2-leave-to /* .list-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+
+@keyframes anim {
+  0%   { opacity: 0; filter: blur(28px)}
+  10%  { opacity: 0; }
+  90%  { opacity: 1; }
+  100% { opacity: 1; filter: blur(6px)}
+}
+.A{
+  animation: anim 5s infinite alternate-reverse;
+}
+.B{
+  animation: anim 5s infinite alternate;
+}
+
+.stopCursor {
+  cursor:not-allowed
+}
+
+.pointerCursor {
+  cursor: pointer;
+}
+
+div.glo{
+ color:#fff;
+ padding: 10px 20px;
+ top:850px;
+ width:130px;
+ text-decoration:none;
+ text-align:center;
+ margin:auto;
+ display: block;
+ background-image: linear-gradient(to left,transparent,transparent 50%,#00c6ff 50%,#00c6ff);
+ background-position: 100% 0;
+ background-size: 200% 100%;
+ transition: all .25s ease-in;
+ font: 400 18px tahoma;
+ border: 1px solid #fff;
+}
+div.glo:hover {
+background-position: 0 0;
+color:#fff;
+}

@@ -1,12 +1,14 @@
 <template>
   <div id='App'>
-    <List/>
+    <RusLng style="display:none" />
+    <List  />
   </div>
 </template>
 
 <script>
 
 import List from "./components/List";
+import RusLng from "./components/RusLng"
 
 export default {
   name: 'Math',
@@ -19,7 +21,7 @@ export default {
     }
   },
   components: {
-    List
+    List, RusLng
   },
   created: function(){
     let max=9, min=5;
