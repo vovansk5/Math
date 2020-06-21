@@ -10,7 +10,8 @@
             <transition-group name="fly2"
                 leave-active-class="animated bounceOutRight">
 
-                <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="calcCheckFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' } " @click="nextWord(index)" >
+                <div v-for="(num,index) in nums" :key=index class="flyDiv" v-show="calcCheckFly(index)" :style="{left: 60+index*235-num*235*5+'px', top: -90+num*147+80 +'px' } " 
+                                @click="nextWord(index)" :class=" {fontMel:fontType==1, fontTahoma:fontType==2, flyMiddleOneStr:lessonType=='rusLng'}" >
                         {{exArr[index]}}
                         <input v-show="lessonType=='math'" v-model="answ[index]" class='answInput' :class="calcAnswerClass(index)" :disabled="checkFlag" >
                 </div>
@@ -21,20 +22,23 @@
         </div>
         
         <!-- Кнопка Проверить -->
-        <div class="checkButton pointerCursor" @click="checkTask" v-if="calcTablo.leftAnswer ==1 && checkFlag==0 || 1==0">Ответить </div>
-        <div class="checkButton pointerCursor" @click="checkTask" v-if="checkFlag==1">Начать заново </div>
-        <div class="checkButton stopCursor " v-if="calcTablo.leftAnswer>1">Осталось {{calcTablo.leftAnswer-1}} </div>
+        <div class="Button pointerCursor" @click="checkTask" v-if="calcTablo.leftAnswer ==1 && checkFlag==0 || 1==0">Проверить </div>
+        <div class="Button pointerCursor" @click="checkTask" v-if="checkFlag==1">Начать заново </div>
+        <div class="Button stopCursor " v-if="calcTablo.leftAnswer>1">Осталось {{calcTablo.leftAnswer-1}} </div>
+
+        <div class="FontButton Button " v-if="(lessonType=='rusLng')" @click="fontType= (fontType==1) ? 2 :1">Шрифт</div>
 
         <div id="resultDiv" v-if="checkFlag" >
             Правильно: {{calcTablo.goodAnswer}}, ошибок: {{calcTablo.wrongAnswer}}.
         </div>
+        <!-- button @click="sendMail3"> mail </button -->
         
     </div>        
 
 </template>
 
 <script>
-
+/* eslint-disable no-unused-vars */
 import {myMail} from "./MyMail.js"
 
 export default {
@@ -49,11 +53,50 @@ export default {
             nums:[0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4],
             curPhoto:'./img/1.jpg',
             numPhoto:1,
+            fontType:1,
             exArr:[],
             rusWords:[
-                ['1', '2' , '3'],
-                ['11','12','13'],
-                ['21','22']
+                ['корова', 'карова' ],
+                ['солнце','сонце'],
+                ['винегрет','венегрет','винигрет'],
+                ['сорока','сарока'],
+                ['воробей','варабей'],
+                ['окно','акно'],
+                ['карандаш','корандаш','корондаш','карондаш'],
+                ['забор','зобор'],
+                ['молоко','малоко','молако'],
+                ['валенки','валинки'],
+                ['диван','деван'],
+                ['фиолетовый','фиалетовый'],
+                ['фамилия','фомилия'],
+                ['абажур','обажур','абожур'],
+                ['автомобиль','афтомобиль','овтамобиль','автамобиль'],
+                ['корабль','карабль'],
+                ['пальто','польто'],
+                ['корзина','карзина'],
+                ['пуговица','пугавица'],
+                ['поролон','паралон','поралон'],
+                ['апельсин','апильсин'],
+                ['ягода','ягада'],
+                ['облако','облоко'],
+                ['яблоко','яблако'],
+                ['аллея','оллея','алея'],
+                ['окно','акно'],
+                ['гражданин','граждонин'],
+                ['носок','насок'],
+                ['фонарь','фанарь'],
+                ['портрет','партрет'],
+                ['светофор','светафор'],
+                ['вокруг','вакруг'],
+                ['конфета','канфета'],
+                ['снеговик','снегавик'],
+                ['пирамида','перамида'],
+                ['девочка','девачка'],
+                ['столица','сталица'],
+                ['дежурный','дижурный'],
+                ['пенал','пинал'],
+                ['осина','асина']
+               
             ],
             curWordX:[],
             curWordY:[]
@@ -75,25 +118,54 @@ export default {
         },
 
         calcCheckFly(){
+            
             return (index) => {
-                let calc=this.ex1[index]+this.ex2[index]==this.answ[index];
-                return (this.checkFlag==1) ? !calc : 1;
+                if (this.checkFlag) {
+                    if (this.lessonType=='mats') {
+                        let calc=this.ex1[index]+this.ex2[index]==this.answ[index];
+                        return (this.checkFlag==1) ? !calc : 1;
+                    }
+                    else {
+                        return (this.curWordY[index]==0) ? 0 :1
+                    }
+                }
+                else
+                    return 1
             }
         },
 
         calcTablo(){
             //Считаем количество правильный и неправильных ответов
-            let goodAnswer=0,  wrongAnswer=0, leftAnswer
-            for (let i=0 ; i<this.ex1.length ; i++) {
-                leftAnswer= (this.ex1[i]+this.ex2[i]==this.answ[i]);
-                goodAnswer+=leftAnswer;
-                wrongAnswer+= (this.answ[i]>0 && !leftAnswer);
+            let goodAnswer=0,  wrongAnswer=0, leftAnswer=1, i=0;
+            if (this.lessonType=='math') {
+                for (i=0 ; i<this.ex1.length ; i++) {
+                    leftAnswer= (this.ex1[i]+this.ex2[i]==this.answ[i]);
+                    goodAnswer+=leftAnswer;
+                    wrongAnswer+= (this.answ[i]>0 && !leftAnswer);
+                }
+                leftAnswer=this.ex1.length-goodAnswer-wrongAnswer
             }
-            leftAnswer=this.ex1.length-goodAnswer-wrongAnswer
+            else {
+                if (this.checkFlag==1 || 1==1) {
+                    for (i=0 ; i<this.exArr.length ; i++) {
+                        if (this.exArr[i]=='кликни')
+                                leftAnswer++
+                        else  {
+                            if (this.curWordY[i]==0)
+                                goodAnswer++
+                            else 
+                                wrongAnswer++;
+                            
+                        }
+
+                    }
+                }
+            }
             return {goodAnswer,wrongAnswer,leftAnswer}
         }
     },
     methods: {
+        
         checkTask() {
             if (this.checkFlag) {
                 this.makeNewTask(); 
@@ -108,7 +180,11 @@ export default {
                 this.makeNewMath()
             }
             else 
-                this.makeWords()
+                this.makeWords();
+
+            this.numPhoto=Math.round(Math.random()*18);
+            this.curPhoto='./img/'+this.numPhoto+'.jpg'
+
         },         
         makeNewMath(){
             this.ex1.length=0;  
@@ -122,8 +198,6 @@ export default {
                 this.ex2.push(Math.round(Math.random()*(max-min)+min));
                 this.exArr.push(this.ex1[i]+' + '+this.ex2[i]+' = ');
             }
-            this.numPhoto=Math.round(Math.random()*18);
-            this.curPhoto='./img/'+this.numPhoto+'.jpg'
 
         },     
         makeWords() {
@@ -135,9 +209,12 @@ export default {
             while (i++<25) {
                 x=Math.floor(Math.random() * this.rusWords.length);
                 y=Math.floor(Math.random() * this.rusWords[x].length) ;
-                this.exArr.push(this.rusWords[x][y]);
+                //this.exArr.push(this.rusWords[x][y]);
                 this.curWordX.push(x);
                 this.curWordY.push(y);
+
+                this.exArr.push('кликни')
+                //this.curWordY.push(-1);
             }
         },          
 
@@ -151,19 +228,30 @@ export default {
             this.curWordY[id]=y;
 
         },
-
+ 
         sendMail3(){
-            let body;
-            body=`<b>Good answer</b> = ${this.calcTablo.goodAnswer}, <b>Errors</b> = ${this.calcTablo.wrongAnswer}
-            , <b>Number photo</b> = ${this.numPhoto}
+            let body=`<b>Good answer</b> = ${this.calcTablo.goodAnswer}, <b>Errors</b> = ${this.calcTablo.wrongAnswer}
+            , <b>Number photo</b> = ${this.numPhoto}, <b>Lesson</b>= ${this.lessonType}
                 <br> <br>
                 <b> ${ (this.calcTablo.goodAnswer>20) ? " :) " : " :( "} </b>`;
-            myMail("vova@septima.ru;kirillnsk12@mail.ru","Fountain of knowledge",body);
+            //let photoPath=`c:\\temp\\math\\ ${this.numPhoto}.jpg`;
+           myMail("vova@septima.ru;kirillnsk12@mail.ru","Fountain of knowledge",body,'');
+           //myMail("vova@septima.ru","Fountain of knowledge",body,'');
         }
 
     },
     created:function(){
+        let curDate=(new Date().getDate())+1;
+        if (curDate % 2==1) {
+            this.lessonType='rusLng';
+            this.fontType=2;
+        }
+        else {
+            this.lessonType='math';
+            this.fontType=1;
+        }
         this.makeNewTask(); 
+
     }
 
 
@@ -227,6 +315,14 @@ h1 {
     margin:-41px 150px;
 }
 
+.fontMel {
+    font-family: mel;
+}
+
+.fontTahoma {
+    font-family: Tahoma;
+}
+
 .flyDiv {
     display: inline-block;
     position: absolute;
@@ -234,7 +330,6 @@ h1 {
     font-weight: bold;
     text-shadow: 2px 2px 2px #555;
     background: #2a8d7b;
-    font-family: mel;
     font-size: 30px;
     margin: 10px;
     text-align: center;
@@ -245,6 +340,10 @@ h1 {
     border-radius: 5px;
 }
 
+.flyMiddleOneStr {
+    padding-top:50px;
+    height:74px;
+}
 
 .fly2-enter-active, .fly2-leave-active {
     transition: all 2s;
@@ -262,7 +361,7 @@ h1 {
     cursor: pointer;
 }
 
-div.checkButton{
+div.Button{
     color:#fff;
     padding: 10px 20px;
     top:850px;
@@ -279,10 +378,14 @@ div.checkButton{
     border: 1px solid #fff;
 }
 
-
-div.checkButton:hover {
+div.Button:hover {
     background-position: 0 0;
     color:#fff;
+}
+
+div.FontButton {
+    margin-top:-45px;
+    margin-right: 90px;
 }
 
 </style>
