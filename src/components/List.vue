@@ -121,7 +121,7 @@ export default {
             
             return (index) => {
                 if (this.checkFlag) {
-                    if (this.lessonType=='mats') {
+                    if (this.lessonType=='math') {
                         let calc=this.ex1[index]+this.ex2[index]==this.answ[index];
                         return (this.checkFlag==1) ? !calc : 1;
                     }
@@ -242,6 +242,7 @@ export default {
     },
     created:function(){
         let curDate=(new Date().getDate())+1;
+        // По четным дням русский
         if (curDate % 2==1) {
             this.lessonType='rusLng';
             this.fontType=2;
